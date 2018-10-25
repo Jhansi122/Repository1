@@ -5,6 +5,7 @@
     <classes>
       <class name="com.org.trujet.maven.selenium.Trujet">
         <methods>
+          <include name="WindowHandling"/>
           <include name="browesr"/>
         </methods>
       </class> <!-- com.org.trujet.maven.selenium.Trujet -->

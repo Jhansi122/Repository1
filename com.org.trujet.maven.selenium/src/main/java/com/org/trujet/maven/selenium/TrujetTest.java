@@ -1,14 +1,18 @@
 package com.org.trujet.maven.selenium;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 import org.openqa.selenium.JavascriptExecutor;
 
-public class Trujet {
+public class TrujetTest {
 	WebDriver driver;
 
 	@BeforeTest
@@ -18,8 +22,22 @@ public class Trujet {
 		driver = new FirefoxDriver();
 		
 		driver.get("https://www.trujet.com/");
+		Set<Cookie> cookie = driver.manage().getCookies();
+		System.out.println("Total number of Cookies in the website are "+cookie.size());
+		for (Cookie cookie1 : cookie) 
+		{
+			System.out.println("Name = " +cookie1.getName());
+			System.out.println("Domain = " +cookie1.getDomain());
+			System.out.println("Path = " +cookie1.getPath());
+			System.out.println("Value = " +cookie1.getValue());
+			System.out.println("Hash Codes = " +cookie1.hashCode());
+		}
 		
 		driver.manage().deleteAllCookies();
+		
+		Set<Cookie> afterDeletion = driver.manage().getCookies();
+		
+		System.out.println("Cookies after deletion = "+afterDeletion.size());
 		
 		Thread.sleep(3000);
 
@@ -29,7 +47,8 @@ public class Trujet {
 	}
 
 	// Handling current window
-	@Test(priority = 1)
+	
+	@Test
 	
 	     public void WindowHandling() throws InterruptedException 
 	      {
@@ -51,7 +70,8 @@ public class Trujet {
 			System.out.println("total number of windows opened=  " + child.size());
 		}
 		      
-		Thread.sleep(6000);
+		//Thread.sleep(5000);
+		      driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
 		driver.findElement(By.xpath("//span[contains(text(),'Create Profile')]")).click();
 		Thread.sleep(2000);
